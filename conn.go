@@ -15,7 +15,7 @@ func (c *Conn) Stream() io.ReadWriter {
 	return c.conn
 }
 func (c *Conn) WriteKV(k, v []byte) (int, error) {
-	b := bytes.NewBuffer(make([]byte, len(k)+len(v)+3))
+	b := bytes.NewBuffer(nil)
 	b.Write(k)
 	b.Write([]byte{':', ' '})
 	b.Write(v)
@@ -23,7 +23,7 @@ func (c *Conn) WriteKV(k, v []byte) (int, error) {
 	return c.conn.Write(b.Bytes())
 }
 func (c *Conn) WriteValue(v []byte) (int, error) {
-	b := bytes.NewBuffer(make([]byte, len(v)+2))
+	b := bytes.NewBuffer(nil)
 	b.Write(v)
 	b.Write([]byte{'\r', '\n'})
 	return c.conn.Write(b.Bytes())
