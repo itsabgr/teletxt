@@ -3,15 +3,15 @@ package teletxt
 import (
 	"bufio"
 	"bytes"
-	"net"
+	"io"
 )
 
 type Conn struct {
-	conn net.Conn
+	conn io.ReadWriter
 	buff *bufio.Reader
 }
 
-func (c *Conn) Conn() net.Conn {
+func (c *Conn) Stream() io.ReadWriter {
 	return c.conn
 }
 func (c *Conn) WriteKV(k, v []byte) (int, error) {
@@ -92,7 +92,7 @@ func (c *Conn) ReadLine() (line []byte, err error) {
 	return line, err
 }
 
-func NewConn(conn net.Conn) *Conn {
+func NewConn(conn io.ReadWriter) *Conn {
 	return &Conn{
 		conn: conn,
 		buff: bufio.NewReader(conn),
